@@ -8,6 +8,7 @@ import  { ReactComponent as ShoppingCart } from './assets/winkelmandje.svg';
 
 function App() {
   const [messageValue, setMessageValue] = React.useState('');
+  const [checkedTerms, toggleCheckedTerms] = React.useState(false);
 
 	return (
     <>
@@ -50,16 +51,37 @@ function App() {
       <footer>
         <div className="form-container">
           <h2>Contactformulier</h2>
-          <form action="">
-            <input
-              type="text"
-              placeholder="Typ hier je vraag..."
-              name="message"
-              value={messageValue}
-              onChange={(e) => setMessageValue(e.target.value)}
-            />
+          <form>
+            <label htmlFor="form-message">
+              Bericht:
+              <input
+                type="text"
+                id="form-message"
+                name="message"
+                className={messageValue.length > 20 ? 'input-error' : ''}
+                placeholder="Typ hier je bericht..."
+                value={messageValue}
+                onChange={(e) => setMessageValue(e.target.value)}
+              />
+            </label>
+            {messageValue.length > 20 && <p className="error-message">Dit bericht is te lang!</p>}
+            <label htmlFor="form-terms-and-conditions">
+              <input
+                type="checkbox"
+                id="form-terms-and-conditions"
+                name="terms-and-conditions"
+                value={checkedTerms}
+                onChange={(e) => {
+                    toggleCheckedTerms(!checkedTerms);
+                  }
+                }
+              />
+              Ik ga akkoord met de algemene voorwaarden.
+            </label>
           </form>
-          <button type="submit">
+          <button
+            disabled={!checkedTerms}
+            type="submit">
             Verstuur
           </button>
         </div>
